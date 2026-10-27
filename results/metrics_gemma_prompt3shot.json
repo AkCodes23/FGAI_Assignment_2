@@ -1,0 +1,52 @@
+{
+  "system": "gemma",
+  "variant": "prompt3shot",
+  "metrics": {
+    "bleu": 10.952,
+    "bleu_precision_1": 39.57,
+    "bleu_precision_2": 15.85,
+    "bleu_precision_3": 7.19,
+    "bleu_precision_4": 3.38,
+    "bleu_bp": 0.985,
+    "chrf": 35.566,
+    "chrf_pp": 33.546,
+    "ter": 84.998
+  },
+  "diagnostics": {
+    "empty_outputs": 0,
+    "empty_rate": 0.0,
+    "no_devanagari": 11,
+    "no_devanagari_rate": 0.055,
+    "latin_only": 11,
+    "latin_only_rate": 0.055,
+    "copied_source": 0,
+    "length_ratio_mean": 1.22,
+    "length_ratio_median": 1.167,
+    "length_ratio_gt2": 5,
+    "length_ratio_lt0.5": 9
+  },
+  "timing": {
+    "inference_seconds": 250.85,
+    "sentences_per_second": 0.8,
+    "new_tokens": 6556,
+    "tokens_per_second": 26.14,
+    "hit_max_new_tokens": 2,
+    "peak_vram_gb": 1.29,
+    "quantization": "4-bit NF4",
+    "batch_size": 12,
+    "decoding": "greedy"
+  },
+  "params_total": 999885952,
+  "config": {
+    "model_id": "unsloth/gemma-3-1b-it",
+    "revision": "main",
+    "family": "Gemma 3 (1B instruction-tuned)",
+    "note": "Ungated mirror of google/gemma-3-1b-it weights; Gemma Terms of Use apply."
+  },
+  "n_test": 200,
+  "shots": 3,
+  "split": "test",
+  "adaptation": "prompt only; no parameter updates",
+  "parameter_count_method": "sum of original safetensors tensor shapes before 4-bit quantization",
+  "parameter_count_resolved_commit": "5b11413a10db4e486ef16a20101fd028f8f2499c"
+}

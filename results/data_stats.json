@@ -1,0 +1,163 @@
+{
+  "dataset": {
+    "name": "IITB English-Hindi Parallel Corpus (CFILT, IIT Bombay)",
+    "hf_id": "cfilt/iitb-english-hindi",
+    "homepage": "https://www.cfilt.iitb.ac.in/iitb_parallel/",
+    "license": "CC BY-NC 4.0",
+    "citation": "Kunchukuttan, Mehta, Bhattacharyya (2018), The IIT Bombay English-Hindi Parallel Corpus, LREC."
+  },
+  "raw_counts": {
+    "train": 1659083,
+    "validation": 520,
+    "test": 2507
+  },
+  "cleaning_dropped": {
+    "train": 51232,
+    "validation": 0,
+    "test": 0
+  },
+  "train_duplicates_removed": 258395,
+  "train_rows_removed_as_val_test_leakage": 0,
+  "splits": {
+    "train": {
+      "pairs": 60000,
+      "src_chars": {
+        "p50": 59.0,
+        "p90": 183.0,
+        "p95": 235.0,
+        "p99": 378.0,
+        "mean": 81.5,
+        "max": 773
+      },
+      "tgt_chars": {
+        "p50": 57.0,
+        "p90": 179.0,
+        "p95": 232.0,
+        "p99": 369.0,
+        "mean": 79.0,
+        "max": 860
+      },
+      "src_words": {
+        "p50": 11.0,
+        "p90": 32.0,
+        "p95": 41.0,
+        "p99": 67.0,
+        "mean": 14.2,
+        "max": 120
+      },
+      "tgt_words": {
+        "p50": 11.0,
+        "p90": 35.0,
+        "p95": 46.0,
+        "p99": 74.0,
+        "mean": 15.4,
+        "max": 120
+      },
+      "unique_source_sentences": 57503,
+      "unique_target_sentences": 56884,
+      "mean_devanagari_ratio": 0.9881
+    },
+    "validation": {
+      "pairs": 520,
+      "src_chars": {
+        "p50": 97.5,
+        "p90": 170.1,
+        "p95": 206.1,
+        "p99": 266.1,
+        "mean": 105.0,
+        "max": 358
+      },
+      "tgt_chars": {
+        "p50": 82.0,
+        "p90": 150.0,
+        "p95": 173.2,
+        "p99": 235.8,
+        "mean": 90.8,
+        "max": 328
+      },
+      "src_words": {
+        "p50": 16.0,
+        "p90": 29.0,
+        "p95": 34.0,
+        "p99": 42.8,
+        "mean": 17.7,
+        "max": 62
+      },
+      "tgt_words": {
+        "p50": 16.0,
+        "p90": 29.0,
+        "p95": 34.0,
+        "p99": 47.8,
+        "mean": 17.9,
+        "max": 59
+      },
+      "unique_source_sentences": 520,
+      "unique_target_sentences": 520,
+      "mean_devanagari_ratio": 1.0
+    },
+    "test": {
+      "pairs": 2507,
+      "src_chars": {
+        "p50": 107.0,
+        "p90": 198.0,
+        "p95": 227.7,
+        "p99": 289.9,
+        "mean": 117.7,
+        "max": 505
+      },
+      "tgt_chars": {
+        "p50": 104.0,
+        "p90": 201.0,
+        "p95": 233.7,
+        "p99": 305.8,
+        "mean": 117.3,
+        "max": 408
+      },
+      "src_words": {
+        "p50": 18.0,
+        "p90": 33.0,
+        "p95": 38.0,
+        "p99": 47.0,
+        "mean": 19.7,
+        "max": 81
+      },
+      "tgt_words": {
+        "p50": 20.0,
+        "p90": 39.0,
+        "p95": 44.0,
+        "p99": 56.9,
+        "mean": 22.8,
+        "max": 76
+      },
+      "unique_source_sentences": 2506,
+      "unique_target_sentences": 2506,
+      "mean_devanagari_ratio": 0.9958
+    }
+  },
+  "train_subset_seed": 42,
+  "source_links": {
+    "hf_mirror": "https://huggingface.co/datasets/cfilt/iitb-english-hindi",
+    "official": "https://www.cfilt.iitb.ac.in/iitb_parallel/"
+  },
+  "generated_at": "2026-10-27T07:15:44.321794+00:00",
+  "files": {
+    "train": {
+      "path": "data\\processed\\train.tsv",
+      "sha256": "56da7925ccd5ea77f9436b9845b7a59f19a2723b10236fc3b77be9ddf300cdab"
+    },
+    "validation": {
+      "path": "data\\processed\\validation.tsv",
+      "sha256": "bad5ee1426d1359367aba62d280a0ec54778666241dd89082ef09b1f7692723f"
+    },
+    "test": {
+      "path": "data\\processed\\test.tsv",
+      "sha256": "c4b0e3f255f1ffc1f56eb6afdb64220f9e521c6ebf68e63c48f2919a025e8e75"
+    }
+  },
+  "leakage_audit": {
+    "train_vs_val_source_overlap": 0,
+    "train_vs_test_source_overlap": 0,
+    "val_vs_test_source_overlap": 0,
+    "method": "Unicode NFKC + casefold + punctuation-strip + whitespace-fold; exact source sentence match required after normalisation"
+  }
+}

@@ -1,0 +1,5 @@
+tag,system,architecture,params_m,train_or_adapt_s,inference_s,sent_per_s,inference_batch,decoding,bleu,bleu_ci_lo,bleu_ci_hi,chrf,ter,peak_vram_gb,n_test,empty_rate,no_devanagari_rate,length_ratio_mean
+basic_transformer,Basic Transformer (from scratch),encoder-decoder,15.2,463.9,15.07,13.27,32,"beam=4, length_penalty=0.6",0.262,0.19,0.326,9.624,145.377,0.51,200,0.0,0.0,1.524
+mt5_base,mT5-small (fine-tuned),encoder-decoder,300.2,4177.8,134.26,1.49,4,beam=4,4.549,3.47,5.598,23.832,87.68,1.36,200,0.0,0.0,1.059
+llama_prompt3shot,TinyLlama 1.1B (3-shot prompt),decoder-only,1100.0,,389.144,0.51,12,greedy,0.358,0.264,0.448,13.663,118.142,1.32,200,0.0,0.0,1.586
+gemma_prompt3shot,Gemma 3 1B (3-shot prompt),decoder-only,999.9,,250.85,0.8,12,greedy,10.952,9.345,12.383,35.566,84.998,1.29,200,0.0,0.055,1.22

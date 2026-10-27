@@ -1,0 +1,47 @@
+{
+  "retrieved_utc": "2026-10-27",
+  "note": "Repositories were requested at revision 'main'; the resolved commit hashes below are the exact snapshots present in the local Hugging Face cache and were used for every reported run.",
+  "dataset": {
+    "name": "IIT Bombay English-Hindi Parallel Corpus",
+    "hf_id": "cfilt/iitb-english-hindi",
+    "resolved_commit": "321516f50bdcc1214fa75164c545478976ed84bd",
+    "license": "CC BY-NC 4.0",
+    "homepage": "https://www.cfilt.iitb.ac.in/iitb_parallel/",
+    "citation": "Kunchukuttan, Mehta, Bhattacharyya (2018), The IIT Bombay English-Hindi Parallel Corpus, LREC"
+  },
+  "models": [
+    {
+      "role": "mt5_base",
+      "hf_id": "google/mt5-small",
+      "architecture": "MT5ForConditionalGeneration",
+      "resolved_commit": "73fb5dbe4756edadc8fbe8c769b0a109493acf7a",
+      "license": "Apache-2.0",
+      "source": "https://huggingface.co/google/mt5-small"
+    },
+    {
+      "role": "llama_prompt3shot",
+      "hf_id": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+      "architecture": "LlamaForCausalLM",
+      "resolved_commit": "fe8a4ea1ffedaf415f4da2f062534de366a451e6",
+      "license": "Apache-2.0",
+      "source": "https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+      "note": "Genuine LLaMA-family checkpoint. The gated official meta-llama repositories were not used because no Hugging Face token was available and licence acceptance was not authorised.",
+      "params_total": 1100048384,
+      "parameter_count_method": "sum of original safetensors tensor shapes before 4-bit quantization",
+      "parameter_count_source": "cached model.safetensors header at resolved_commit"
+    },
+    {
+      "role": "gemma_prompt3shot",
+      "hf_id": "unsloth/gemma-3-1b-it",
+      "architecture": "Gemma3ForCausalLM",
+      "resolved_commit": "5b11413a10db4e486ef16a20101fd028f8f2499c",
+      "license": "Gemma Terms of Use (weights); ungated mirror repository",
+      "source": "https://huggingface.co/unsloth/gemma-3-1b-it",
+      "upstream": "google/gemma-3-1b-it",
+      "note": "The official google/gemma-3-1b-it repository is gated. This ungated mirror provides the Gemma 3 1B instruction-tuned checkpoint; the Gemma Terms of Use apply. The system is always reported as Gemma 3 1B, never as another model.",
+      "params_total": 999885952,
+      "parameter_count_method": "sum of original safetensors tensor shapes before 4-bit quantization",
+      "parameter_count_source": "cached model.safetensors header at resolved_commit"
+    }
+  ]
+}

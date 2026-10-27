@@ -1,0 +1,34 @@
+{
+  "basic_transformer": {
+    "bleu": {
+      "mean": 0.256,
+      "lo": 0.19,
+      "hi": 0.326,
+      "n_samples": 400
+    }
+  },
+  "mt5_base": {
+    "bleu": {
+      "mean": 4.478,
+      "lo": 3.47,
+      "hi": 5.598,
+      "n_samples": 400
+    }
+  },
+  "llama_prompt3shot": {
+    "bleu": {
+      "mean": 0.355,
+      "lo": 0.264,
+      "hi": 0.448,
+      "n_samples": 400
+    }
+  },
+  "gemma_prompt3shot": {
+    "bleu": {
+      "mean": 10.872,
+      "lo": 9.345,
+      "hi": 12.383,
+      "n_samples": 400
+    }
+  }
+}

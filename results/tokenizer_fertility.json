@@ -1,0 +1,24 @@
+{
+  "TinyLlama/TinyLlama-1.1B-Chat-v1.0": {
+    "n_sentences": 2507,
+    "hi_tokens_mean": 126.28,
+    "hi_tokens_median": 113,
+    "hi_tokens_p95": 250,
+    "en_tokens_mean": 28.66,
+    "hi_words_mean": 22.75,
+    "hi_tokens_per_word": 5.55,
+    "max_new_tokens_cap": 192,
+    "references_over_cap": 393
+  },
+  "unsloth/gemma-3-1b-it": {
+    "n_sentences": 2507,
+    "hi_tokens_mean": 31.02,
+    "hi_tokens_median": 28,
+    "hi_tokens_p95": 62,
+    "en_tokens_mean": 24.76,
+    "hi_words_mean": 22.75,
+    "hi_tokens_per_word": 1.364,
+    "max_new_tokens_cap": 192,
+    "references_over_cap": 0
+  }
+}

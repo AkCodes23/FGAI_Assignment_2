@@ -1,0 +1,13 @@
+.venv/
+.uv-cache/
+.hf/
+models/
+outputs/
+logs/
+runs/
+data/raw/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.git/
+.env

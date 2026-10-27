@@ -1,0 +1,98 @@
+# FGAI Assignment 3 — single source of truth for experiment settings.
+# Every run reads this file; override individual keys with --set key=value.
+seed: 42
+language_pair: en-hi
+
+dataset:
+  name: IITB English-Hindi Parallel Corpus (CFILT, IIT Bombay)
+  hf_id: cfilt/iitb-english-hindi
+  license: CC BY-NC 4.0
+  homepage: https://www.cfilt.iitb.ac.in/iitb_parallel/
+  citation: "Kunchukuttan, Mehta, Bhattacharyya (2018), The IIT Bombay English-Hindi Parallel Corpus, LREC."
+  train_subset: 60000        # identical pool for every system
+  max_src_tokens: 96
+  max_tgt_tokens: 96
+  min_chars: 2
+  max_char_ratio: 4.0
+
+basic_transformer:
+  vocab_size: 8000
+  d_model: 256
+  n_heads: 8
+  n_encoder_layers: 6
+  n_decoder_layers: 6
+  d_ff: 1024
+  dropout: 0.1
+  label_smoothing: 0.1
+  batch_size: 96
+  grad_accum: 1
+  epochs: 20
+  lr: 0.001
+  warmup_steps: 600
+  max_grad_norm: 1.0
+  beam_size: 4
+  length_penalty: 0.6
+  eval_every_epochs: 1
+  amp: true
+
+mt5:
+  model_id: google/mt5-small
+  revision: main
+  source_prefix: "translate English to Hindi: "
+  batch_size: 16
+  grad_accum: 2
+  epochs: 3
+  lr: 0.001
+  warmup_steps: 300
+  weight_decay: 0.01
+  max_src_tokens: 96
+  max_tgt_tokens: 96
+  predict_max_new_tokens: 96
+  num_beams: 4
+  optim: adafactor
+  bf16: true
+  gradient_checkpointing: false
+  eval_every_epochs: 1
+
+decoder:
+  llama:
+    model_id: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+    revision: main
+    family: LLaMA (TinyLlama, LlamaForCausalLM)
+  gemma:
+    model_id: unsloth/gemma-3-1b-it
+    revision: main
+    family: Gemma 3 (1B instruction-tuned)
+    note: "Ungated mirror of google/gemma-3-1b-it weights; Gemma Terms of Use apply."
+  max_input_tokens: 768
+  max_new_tokens: 192
+  n_shots: 3
+  batch_size: 12
+  qlora:
+    load_in_4bit: true
+    r: 16
+    alpha: 32
+    dropout: 0.05
+    lr: 0.0002
+    epochs: 1
+    train_limit: 12000
+    batch_size: 4
+    grad_accum: 4
+    max_seq_len: 512
+    warmup_ratio: 0.03
+    weight_decay: 0.01
+
+evaluation:
+  bleu_tokenizer: 13a
+  chrf: true
+  bootstrap_samples: 400
+  test_size: 200
+  sample_seed: 42
+  temperature_sample_size: 20
+  temperature_grid: [0.2, 0.7, 1.0]
+  top_p: 0.9
+
+
+
+
+

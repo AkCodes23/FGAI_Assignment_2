@@ -1,0 +1,51 @@
+{
+  "system": "llama",
+  "variant": "prompt3shot",
+  "metrics": {
+    "bleu": 0.358,
+    "bleu_precision_1": 10.79,
+    "bleu_precision_2": 0.96,
+    "bleu_precision_3": 0.15,
+    "bleu_precision_4": 0.01,
+    "bleu_bp": 1.0,
+    "chrf": 13.663,
+    "chrf_pp": 11.803,
+    "ter": 118.142
+  },
+  "diagnostics": {
+    "empty_outputs": 0,
+    "empty_rate": 0.0,
+    "no_devanagari": 0,
+    "no_devanagari_rate": 0.0,
+    "latin_only": 0,
+    "latin_only_rate": 0.0,
+    "copied_source": 0,
+    "length_ratio_mean": 1.586,
+    "length_ratio_median": 1.333,
+    "length_ratio_gt2": 35,
+    "length_ratio_lt0.5": 1
+  },
+  "timing": {
+    "inference_seconds": 389.144,
+    "sentences_per_second": 0.51,
+    "new_tokens": 32492,
+    "tokens_per_second": 83.5,
+    "hit_max_new_tokens": 133,
+    "peak_vram_gb": 1.32,
+    "quantization": "4-bit NF4",
+    "batch_size": 12,
+    "decoding": "greedy"
+  },
+  "params_total": 1100048384,
+  "config": {
+    "model_id": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+    "revision": "main",
+    "family": "LLaMA (TinyLlama, LlamaForCausalLM)"
+  },
+  "n_test": 200,
+  "shots": 3,
+  "split": "test",
+  "adaptation": "prompt only; no parameter updates",
+  "parameter_count_method": "sum of original safetensors tensor shapes before 4-bit quantization",
+  "parameter_count_resolved_commit": "fe8a4ea1ffedaf415f4da2f062534de366a451e6"
+}

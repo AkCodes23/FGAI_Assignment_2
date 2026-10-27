@@ -1,0 +1,57 @@
+{
+  "missing_files": [],
+  "sample_size": 200,
+  "sample_seed": 42,
+  "sample_ids_unique": true,
+  "translations": {
+    "basic_transformer": {
+      "rows": 200,
+      "metrics_n": 200,
+      "ids_match_sample": true,
+      "sources_references_match": true,
+      "aligned": true
+    },
+    "mt5_base": {
+      "rows": 200,
+      "metrics_n": 200,
+      "ids_match_sample": true,
+      "sources_references_match": true,
+      "aligned": true
+    },
+    "llama_prompt3shot": {
+      "rows": 200,
+      "metrics_n": 200,
+      "ids_match_sample": true,
+      "sources_references_match": true,
+      "aligned": true
+    },
+    "gemma_prompt3shot": {
+      "rows": 200,
+      "metrics_n": 200,
+      "ids_match_sample": true,
+      "sources_references_match": true,
+      "aligned": true
+    }
+  },
+  "split_sizes": {
+    "train": 60000,
+    "validation": 520,
+    "test": 2507
+  },
+  "leakage_audit": {
+    "train_vs_val_source_overlap": 0,
+    "train_vs_test_source_overlap": 0,
+    "val_vs_test_source_overlap": 0,
+    "method": "Unicode NFKC + casefold + punctuation-strip + whitespace-fold; exact source sentence match required after normalisation"
+  },
+  "temperature": {
+    "n": 20,
+    "ids_match_sample_prefix": true,
+    "systems": [
+      "gemma_prompt3shot",
+      "llama_prompt3shot"
+    ],
+    "three_temperatures_each": true
+  },
+  "pass": true
+}

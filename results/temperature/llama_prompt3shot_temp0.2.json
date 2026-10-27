@@ -1,0 +1,40 @@
+{
+  "settings": {
+    "temperature": 0.2,
+    "bleu": 0.408,
+    "chrf": 13.861,
+    "ter": 119.737,
+    "distinct_1": 0.3212,
+    "distinct_2": 0.6481,
+    "mean_words": 26.15,
+    "mean_max_token_repeat": 2.3,
+    "empty_rate": 0.0,
+    "no_devanagari_rate": 0.0,
+    "seconds": 53.891,
+    "tokens_per_second": 59.92,
+    "hit_max_new_tokens": 12
+  },
+  "n": 20,
+  "test_row_indices": [
+    2,
+    13,
+    26,
+    29,
+    47,
+    79,
+    86,
+    102,
+    108,
+    122,
+    128,
+    130,
+    131,
+    177,
+    187,
+    192,
+    229,
+    237,
+    241,
+    260
+  ]
+}

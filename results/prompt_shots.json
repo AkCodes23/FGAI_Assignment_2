@@ -1,0 +1,17 @@
+{
+  "selection_rule": "first n training rows with 7-18 source words",
+  "shots": [
+    {
+      "en": "He proposed the partition of India to Nehru and Gandhi.",
+      "hi": "उन्होंने गांधी और नेहरु के सामने देश के विभाजन का प्रस्ताव रखा।"
+    },
+    {
+      "en": "This is in China. This girl needed a breathing apparatus.",
+      "hi": "ये चीन है। यहाँ इस लडकी को साँस लेने के लिये मशीन चाहिये।"
+    },
+    {
+      "en": "Friends, With the rapid increase of tech use, data protection as well as cyber security become very important.",
+      "hi": "मित्रों, प्रौद्योगिकी के बढ़ते इस्‍तेमाल से आंकड़ों का संरक्षण और साइबर सुरक्षा भी बहुत महत्‍वपूर्ण हो गई है।"
+    }
+  ]
+}
