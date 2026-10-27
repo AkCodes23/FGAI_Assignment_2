@@ -1,0 +1,13 @@
+# Environment / caches (all kept inside this project directory)
+.venv/
+.uv-cache/
+data/raw/
+models/
+outputs/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+runs/
+*.egg-info/
+.hf/
+.env
