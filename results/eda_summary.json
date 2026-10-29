@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "dataset": {
+    "name": "IITB English-Hindi Parallel Corpus (CFILT, IIT Bombay)",
+    "hf_id": "cfilt/iitb-english-hindi",
+    "homepage": "https://www.cfilt.iitb.ac.in/iitb_parallel/",
+    "license": "CC BY-NC 4.0",
+    "citation": "Kunchukuttan, Mehta, Bhattacharyya (2018), The IIT Bombay English-Hindi Parallel Corpus, LREC."
+  },
+  "raw_split_rows": {
+    "train": 1659083,
+    "validation": 520,
+    "test": 2507
+  },
+  "cleaning_dropped_rows_recorded_in_manifest": {
+    "train": 51232,
+    "validation": 0,
+    "test": 0
+  },
+  "train_duplicate_pairs_removed_recorded_in_manifest": 258395,
+  "train_subset_seed": 42,
+  "method": {
+    "processed_training_scope": "fixed 60,000-row shared training subset",
+    "validation_and_test_scope": "full provider validation and test splits",
+    "headline_evaluation_scope": "separate fixed 200-row sample from the 2,507-row test split",
+    "character_length": "Python Unicode code-point count",
+    "word_length": "whitespace-separated token count",
+    "unique_sentence_and_pair_key": "same NFKC, casefold, punctuation-strip, whitespace-fold key as src/fgai_mt/data.py",
+    "target_devanagari_ratio": "Devanagari code points divided by alphabetic target characters, per sentence",
+    "target_script_composition": "alphabetic target characters classified by Unicode script name"
+  },
+  "splits": {
+    "train": {
+      "rows": 60000,
+      "missing_pairs": 0,
+      "normalized_exact_pair_duplicate_rows": 0,
+      "unique_source_sentences": 57503,
+      "unique_target_sentences": 56884,
+      "source_characters": {
+        "p10": 8.0,
+        "p50": 59.0,
+        "p90": 183.0,
+        "p95": 235.0,
+        "p99": 378.0,
+        "mean": 81.5,
+        "max": 773
+      },
+      "target_characters": {
+        "p10": 8.0,
+        "p50": 57.0,
+        "p90": 179.0,
+        "p95": 232.0,
+        "p99": 369.0,
+        "mean": 79.0,
+        "max": 860
+      },
+      "source_words": {
+        "p10": 1.0,
+        "p50": 11.0,
+        "p90": 32.0,
+        "p95": 41.0,
+        "p99": 67.0,
+        "mean": 14.2,
+        "max": 120
+      },
+      "target_words": {
+        "p10": 1.0,
+        "p50": 11.0,
+        "p90": 35.0,
+        "p95": 46.0,
+        "p99": 74.0,
+        "mean": 15.4,
+        "max": 120
+      },
+      "target_devanagari_ratio_per_sentence": {
+        "p10": 1.0,
+        "p50": 1.0,
+        "p90": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "mean": 0.9881,
+        "max": 1
+      },
+      "target_alphabetic_script_letter_counts": {
+        "devanagari": 2286232,
+        "latin": 19703,
+        "other": 9
+      },
+      "target_alphabetic_script_letter_shares": {
+        "devanagari": 0.991452,
+        "latin": 0.008544,
+        "other": 4e-06
+      },
+      "matches_saved_data_stats": true,
+      "source_file": {
+        "path": "data/processed/train.tsv",
+        "sha256": "56da7925ccd5ea77f9436b9845b7a59f19a2723b10236fc3b77be9ddf300cdab"
+      }
+    },
+    "validation": {
+      "rows": 520,
+      "missing_pairs": 0,
+      "normalized_exact_pair_duplicate_rows": 0,
+      "unique_source_sentences": 520,
+      "unique_target_sentences": 520,
+      "source_characters": {
+        "p10": 47.0,
+        "p50": 97.5,
+        "p90": 170.1,
+        "p95": 206.1,
+        "p99": 266.1,
+        "mean": 105.0,
+        "max": 358
+      },
+      "target_characters": {
+        "p10": 39.9,
+        "p50": 82.0,
+        "p90": 150.0,
+        "p95": 173.2,
+        "p99": 235.8,
+        "mean": 90.8,
+        "max": 328
+      },
+      "source_words": {
+        "p10": 8.0,
+        "p50": 16.0,
+        "p90": 29.0,
+        "p95": 34.0,
+        "p99": 42.8,
+        "mean": 17.7,
+        "max": 62
+      },
+      "target_words": {
+        "p10": 8.0,
+        "p50": 16.0,
+        "p90": 29.0,
+        "p95": 34.0,
+        "p99": 47.8,
+        "mean": 17.9,
+        "max": 59
+      },
+      "target_devanagari_ratio_per_sentence": {
+        "p10": 1.0,
+        "p50": 1.0,
+        "p90": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "mean": 1.0,
+        "max": 1
+      },
+      "target_alphabetic_script_letter_counts": {
+        "devanagari": 22894,
+        "latin": 1,
+        "other": 0
+      },
+      "target_alphabetic_script_letter_shares": {
+        "devanagari": 0.999956,
+        "latin": 4.4e-05,
+        "other": 0.0
+      },
+      "matches_saved_data_stats": true,
+      "source_file": {
+        "path": "data/processed/validation.tsv",
+        "sha256": "bad5ee1426d1359367aba62d280a0ec54778666241dd89082ef09b1f7692723f"
+      }
+    },
+    "test": {
+      "rows": 2507,
+      "missing_pairs": 0,
+      "normalized_exact_pair_duplicate_rows": 1,
+      "unique_source_sentences": 2506,
+      "unique_target_sentences": 2506,
+      "source_characters": {
+        "p10": 51.0,
+        "p50": 107.0,
+        "p90": 198.0,
+        "p95": 227.7,
+        "p99": 289.9,
+        "mean": 117.7,
+        "max": 505
+      },
+      "target_characters": {
+        "p10": 51.0,
+        "p50": 104.0,
+        "p90": 201.0,
+        "p95": 233.7,
+        "p99": 305.8,
+        "mean": 117.3,
+        "max": 408
+      },
+      "source_words": {
+        "p10": 9.0,
+        "p50": 18.0,
+        "p90": 33.0,
+        "p95": 38.0,
+        "p99": 47.0,
+        "mean": 19.7,
+        "max": 81
+      },
+      "target_words": {
+        "p10": 10.0,
+        "p50": 20.0,
+        "p90": 39.0,
+        "p95": 44.0,
+        "p99": 56.9,
+        "mean": 22.8,
+        "max": 76
+      },
+      "target_devanagari_ratio_per_sentence": {
+        "p10": 1.0,
+        "p50": 1.0,
+        "p90": 1.0,
+        "p95": 1.0,
+        "p99": 1.0,
+        "mean": 0.9958,
+        "max": 1
+      },
+      "target_alphabetic_script_letter_counts": {
+        "devanagari": 141039,
+        "latin": 672,
+        "other": 0
+      },
+      "target_alphabetic_script_letter_shares": {
+        "devanagari": 0.995258,
+        "latin": 0.004742,
+        "other": 0.0
+      },
+      "matches_saved_data_stats": true,
+      "source_file": {
+        "path": "data/processed/test.tsv",
+        "sha256": "c4b0e3f255f1ffc1f56eb6afdb64220f9e521c6ebf68e63c48f2919a025e8e75"
+      }
+    }
+  },
+  "interpretation_limitations": [
+    "This is descriptive corpus EDA, not a human translation-quality or representativeness audit.",
+    "The training statistics describe the saved 60,000-row subset, not the full raw training corpus.",
+    "The fixed 200-row headline sample is distinct from the full 2,507-row test-split EDA.",
+    "Repeated source or target sentences can remain after exact normalized pair deduplication."
+  ],
+  "figure": "results/figures/dataset_eda.png"
+}

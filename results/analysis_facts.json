@@ -10,9 +10,9 @@
     },
     {
       "tag": "mt5_base",
-      "bleu": 4.549,
-      "chrf": 23.832,
-      "ter": 87.68
+      "bleu": 7.581,
+      "chrf": 29.335,
+      "ter": 82.141
     },
     {
       "tag": "llama_prompt3shot",
@@ -73,9 +73,9 @@
     {
       "a": "basic_transformer",
       "b": "mt5_base",
-      "delta_bleu": -4.237,
-      "ci_lo": -5.438,
-      "ci_hi": -3.117,
+      "delta_bleu": -7.287,
+      "ci_lo": -8.619,
+      "ci_hi": -5.975,
       "p_delta_le_0": 1.0
     },
     {
@@ -97,17 +97,17 @@
     {
       "a": "mt5_base",
       "b": "llama_prompt3shot",
-      "delta_bleu": 4.141,
-      "ci_lo": 3.01,
-      "ci_hi": 5.325,
+      "delta_bleu": 7.191,
+      "ci_lo": 5.85,
+      "ci_hi": 8.582,
       "p_delta_le_0": 0.0
     },
     {
       "a": "mt5_base",
       "b": "gemma_prompt3shot",
-      "delta_bleu": -6.388,
-      "ci_lo": -8.076,
-      "ci_hi": -4.605,
+      "delta_bleu": -3.339,
+      "ci_lo": -4.945,
+      "ci_hi": -1.592,
       "p_delta_le_0": 1.0
     },
     {
@@ -264,12 +264,12 @@
       "n": 200,
       "empty": 0.0,
       "no_devanagari": 0.0,
-      "dropped_number_sentences": 0.085,
+      "dropped_number_sentences": 0.065,
       "added_number_sentences": 0.04,
-      "untranslated_latin_sentences": 0.005,
-      "repetition_loops": 0.095,
-      "length_ratio_gt2": 0.01,
-      "length_ratio_lt0.5": 0.055,
+      "untranslated_latin_sentences": 0.01,
+      "repetition_loops": 0.065,
+      "length_ratio_gt2": 0.0,
+      "length_ratio_lt0.5": 0.025,
       "sensitive_politics": 0.065,
       "sensitive_economy": 0.02,
       "sensitive_gender": 0.03,
@@ -378,21 +378,21 @@
       "system": "mT5-small (fine-tuned)",
       "architecture": "encoder-decoder",
       "params_m": 300.2,
-      "train_or_adapt_s": 4177.8,
-      "inference_s": 134.26,
-      "sent_per_s": 1.49,
+      "train_or_adapt_s": 12379.4,
+      "inference_s": 128.95,
+      "sent_per_s": 1.55,
       "inference_batch": "4",
       "decoding": "beam=4",
-      "bleu": 4.549,
-      "bleu_ci_lo": 3.47,
-      "bleu_ci_hi": 5.598,
-      "chrf": 23.832,
-      "ter": 87.68,
+      "bleu": 7.581,
+      "bleu_ci_lo": 6.376,
+      "bleu_ci_hi": 8.753,
+      "chrf": 29.335,
+      "ter": 82.141,
       "peak_vram_gb": 1.36,
       "n_test": 200.0,
       "empty_rate": 0.0,
       "no_devanagari_rate": 0.0,
-      "length_ratio_mean": 1.059
+      "length_ratio_mean": 1.067
     },
     {
       "tag": "llama_prompt3shot",

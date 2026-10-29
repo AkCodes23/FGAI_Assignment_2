@@ -2,9 +2,9 @@
   {
     "a": "basic_transformer",
     "b": "mt5_base",
-    "delta_bleu": -4.237,
-    "ci_lo": -5.438,
-    "ci_hi": -3.117,
+    "delta_bleu": -7.287,
+    "ci_lo": -8.619,
+    "ci_hi": -5.975,
     "p_delta_le_0": 1.0
   },
   {
@@ -26,17 +26,17 @@
   {
     "a": "mt5_base",
     "b": "llama_prompt3shot",
-    "delta_bleu": 4.141,
-    "ci_lo": 3.01,
-    "ci_hi": 5.325,
+    "delta_bleu": 7.191,
+    "ci_lo": 5.85,
+    "ci_hi": 8.582,
     "p_delta_le_0": 0.0
   },
   {
     "a": "mt5_base",
     "b": "gemma_prompt3shot",
-    "delta_bleu": -6.388,
-    "ci_lo": -8.076,
-    "ci_hi": -4.605,
+    "delta_bleu": -3.339,
+    "ci_lo": -4.945,
+    "ci_hi": -1.592,
     "p_delta_le_0": 1.0
   },
   {

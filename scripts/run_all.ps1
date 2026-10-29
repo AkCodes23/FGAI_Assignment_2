@@ -33,6 +33,7 @@ Invoke-Py @("scripts\14_sync_parameter_counts.py")
 Invoke-Py @("scripts\10_collect_facts.py")
 Invoke-Py @("scripts\11_fill_results_table.py")
 Invoke-Py @("scripts\12_qualitative_samples.py")
+Invoke-Py @("scripts\15_eda.py")
 foreach ($privateScript in @("09_make_submission_doc.py", "13_make_submission_pdf.py")) {
     $scriptPath = Join-Path $root ("scripts\" + $privateScript)
     if (Test-Path $scriptPath) {

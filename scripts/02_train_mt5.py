@@ -101,6 +101,12 @@ def main() -> int:
     ap.add_argument("--config", default=None)
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--epochs", type=int, default=None)
+    ap.add_argument("--output-dir", default=str(OUT_DIR),
+                    help="checkpoint/history output directory (relative paths are project-rooted)")
+    ap.add_argument("--skip-zero-shot", action="store_true",
+                    help="skip the pretrained zero-shot evaluation when it is already recorded")
+    ap.add_argument("--train-only", action="store_true",
+                    help="save training outputs and skip test-set inference; use the fixed-sample inference script later")
     ap.add_argument("--stop-after-epoch", type=int, default=None,
                     help="stop after this epoch while keeping the schedule sized for --epochs")
     args = ap.parse_args()
@@ -109,11 +115,14 @@ def main() -> int:
     if args.epochs:
         mcfg["epochs"] = args.epochs
     set_seed(cfg["seed"])
+    out_dir = Path(args.output_dir)
+    if not out_dir.is_absolute():
+        out_dir = project_path(args.output_dir)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger = get_logger("train_mt5", project_path("logs", "train_mt5.log"))
     jsonl = JsonlLogger(project_path("logs", "train_mt5.jsonl"))
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    out_dir.mkdir(parents=True, exist_ok=True)
     dump_config(cfg, project_path("logs", "config_used_mt5.yaml"))
 
     tok = AutoTokenizer.from_pretrained(mcfg["model_id"], revision=mcfg["revision"])
@@ -139,7 +148,7 @@ def main() -> int:
     model.to(device)
 
     # zero-shot ablation with the *pretrained* weights, before any fine-tuning
-    if not args.smoke:
+    if not args.smoke and not args.skip_zero_shot:
         zs_srcs = [r["en"] for r in test_rows[:300]]
         zs_refs = [r["hi"] for r in test_rows[:300]]
         zs_hyps, zs_seconds = generate(model, tok, zs_srcs, mcfg["source_prefix"], mcfg, device,
@@ -207,19 +216,29 @@ def main() -> int:
         jsonl.log(event="epoch", **row)
         if val_loss < best_val:
             best_val = val_loss
-            model.save_pretrained(OUT_DIR / "best")
-            tok.save_pretrained(OUT_DIR / "best")
+            model.save_pretrained(out_dir / "best")
+            tok.save_pretrained(out_dir / "best")
             logger.info("saved best mT5 checkpoint (val loss %.4f)", val_loss)
         if args.stop_after_epoch and epoch >= args.stop_after_epoch:
             logger.info("stopping after epoch %d by request (schedule sized for %d epochs)", epoch, mcfg["epochs"])
             break
 
     train_seconds = time.perf_counter() - train_start
-    write_json(OUT_DIR / "training_history.json", {"history": history, "train_seconds": round(train_seconds, 1),
-                                                    "params_total": params_total, "total_steps": global_step})
+    write_json(out_dir / "training_history.json", {
+        "history": history,
+        "train_seconds": round(train_seconds, 1),
+        "params_total": params_total,
+        "total_steps": global_step,
+        "planned_epochs": mcfg["epochs"],
+        "starting_checkpoint": f"{mcfg['model_id']}@{mcfg['revision']}",
+    })
+
+    if args.train_only:
+        logger.info("training-only run complete; test evaluation is left to the fixed-sample inference stage")
+        return 0
 
     # best checkpoint for test inference
-    model = AutoModelForSeq2SeqLM.from_pretrained(OUT_DIR / "best")
+    model = AutoModelForSeq2SeqLM.from_pretrained(out_dir / "best")
     model.to(device)
     model.eval()
 
@@ -243,7 +262,7 @@ def main() -> int:
                    "batch_size": 4,
                    "decoding": f"beam={mcfg['num_beams']}"},
         "params_total": params_total,
-        "checkpoint": str((OUT_DIR / "best").relative_to(project_path())),
+        "checkpoint": str((out_dir / "best").relative_to(project_path())),
         "config": mcfg,
         "n_test": len(hyps),
         "epochs_completed": epochs_done,

@@ -2,7 +2,55 @@
   "missing_files": [],
   "sample_size": 200,
   "sample_seed": 42,
+  "sample_seed_42": true,
   "sample_ids_unique": true,
+  "sample_split_rows_match_manifest": true,
+  "notebook_sample_scope_correct": true,
+  "notebook_embeds_eda_figure": true,
+  "headline_scope_consistent": true,
+  "eda": {
+    "splits": {
+      "train": {
+        "rows": 60000,
+        "manifest_rows": 60000,
+        "source_hash_matches_manifest": true,
+        "length_unique_script_stats_match": true,
+        "pair_quality_record_matches_saved_audit": true,
+        "missing_pairs_recorded": 0,
+        "normalized_exact_pair_duplicate_rows_recorded": 0
+      },
+      "validation": {
+        "rows": 520,
+        "manifest_rows": 520,
+        "source_hash_matches_manifest": true,
+        "length_unique_script_stats_match": true,
+        "pair_quality_record_matches_saved_audit": true,
+        "missing_pairs_recorded": 0,
+        "normalized_exact_pair_duplicate_rows_recorded": 0
+      },
+      "test": {
+        "rows": 2507,
+        "manifest_rows": 2507,
+        "source_hash_matches_manifest": true,
+        "length_unique_script_stats_match": true,
+        "pair_quality_record_matches_saved_audit": true,
+        "missing_pairs_recorded": 0,
+        "normalized_exact_pair_duplicate_rows_recorded": 1
+      }
+    },
+    "source_hashes_match_manifest": true,
+    "row_counts_match_manifest_and_data_stats": true,
+    "distributions_match_saved_data_stats": true,
+    "figure_valid_png": true,
+    "validation_scope": "checks saved EDA metadata, pair-quality record, source hashes, row counts, distributions, and figure/document references against shipped artifacts; raw TSVs are excluded, so no re-computation"
+  },
+  "eda_summary_source_hashes_match_manifest": true,
+  "eda_rows_match_manifest": true,
+  "eda_stats_match_saved_data_stats": true,
+  "eda_pair_quality_matches_saved_audit": true,
+  "eda_figure_valid": true,
+  "eda_manifest_metadata_match": true,
+  "eda_documentation_mentions_artifacts": true,
   "translations": {
     "basic_transformer": {
       "rows": 200,
@@ -44,6 +92,13 @@
     "val_vs_test_source_overlap": 0,
     "method": "Unicode NFKC + casefold + punctuation-strip + whitespace-fold; exact source sentence match required after normalisation"
   },
+  "publication_manifest_overlap_counts": {
+    "train_vs_val_source_overlap": 0,
+    "train_vs_test_source_overlap": 0,
+    "val_vs_test_source_overlap": 0
+  },
+  "split_overlap_zero": true,
+  "overlap_gate_scope": "validates saved overlap-audit records; raw split TSVs are excluded, so no recomputation",
   "temperature": {
     "n": 20,
     "ids_match_sample_prefix": true,
@@ -51,7 +106,31 @@
       "gemma_prompt3shot",
       "llama_prompt3shot"
     ],
-    "three_temperatures_each": true
+    "expected_temperatures": [
+      0.2,
+      0.7,
+      1.0
+    ],
+    "coverage": {
+      "gemma_prompt3shot": {
+        "observed": [
+          0.2,
+          0.7,
+          1.0
+        ],
+        "exactly_once_each": true
+      },
+      "llama_prompt3shot": {
+        "observed": [
+          0.2,
+          0.7,
+          1.0
+        ],
+        "exactly_once_each": true
+      }
+    },
+    "three_temperatures_each": true,
+    "exact_temperatures_once_each": true
   },
   "pass": true
 }

@@ -50,9 +50,9 @@ reported as bias, hallucination or a cultural error. `added_numbers` is a halluc
 
 **Reference:** इस अभियान को दो भूतपूर्व अमेरिकी परिवहन सचिवों ने भी समर्थन दिया है, जिन्होंने वर्ष 2011 में अपनी रिपोर्ट में कांग्रेस से प्रति-मील भुगतान की दिशा में आगे बढ़ने का अनुग्रह किया था।
 
-**Hypothesis:** यह आंदोलन दो पूर्व यू.एस. रेलवे सचिवों ने 2011 में कांग्रेस को रोजगार मार्ग में लौटने के लिए कहा है।
+**Hypothesis:** यह आंदोलन दो पूर्व यू.एस. परिवहन सचिवों द्वारा किया गया है, जिन्होंने 2011 रिपोर्ट में कांग्रेस को रोजगार की दिशा में लौटने का आह्वान किया है।
 
-**Flags:** dropped_numbers=—; added_numbers=—; latin_words=—; max_repeat=1; length_ratio=0.61; sensitive=politics
+**Flags:** dropped_numbers=—; added_numbers=—; latin_words=—; max_repeat=1; length_ratio=0.79; sensitive=politics
 
 ## mt5_base — test #86 (repetition)
 
@@ -60,19 +60,9 @@ reported as bias, hallucination or a cultural error. `added_numbers` is a halluc
 
 **Reference:** मीठे में एैपल जलेबी, टमाटर हलवा, अखरोट हलवा, दूध पाक, खजूर बर्फी, ड्राईफू्रट हलवा, मकई जजारिया और सूतार सैनी खीर आपके इस राजसी भोजन को समाप्त करने का एक बेहतरीन ढग होगा।
 
-**Hypothesis:** लघु खाने के लिए सबसे उत्तम तरीके हैं जैसे लघु खाने के लिए लघु खाने के लिए लघु खाने के लिए लघु खाने के लिए लघु खाने के लिए लघु खाने के लिए।
+**Hypothesis:** यह सबसे उत्तम मार्ग है जैसे अली जलीबी, तेल हिलवाली, टॉप हिलवाली, तेल हिलवाली, तेल हिलवाली, तेल बाबू, तेल बाबू, तेल बाबू, तेल बाबू, तेल बाबू, तेल बाबू, तेल बाबू, तेल
 
-**Flags:** dropped_numbers=—; added_numbers=—; latin_words=—; max_repeat=5; length_ratio=1.03; sensitive=—
-
-## mt5_base — test #102 (untranslated_latin)
-
-**Source:** MRF has increased the size of the MRF ZLO Performance radials for high level vehicles.
-
-**Reference:** एमआरएफ ने एमआरएफ जेएलओ नामक पफार्मेस रेडियल टायरों की सीमा में उच्च स्तर के वाहनों के लिए इजाफा किया है।
-
-**Hypothesis:** एमआरआर के ऊपरी स्तर के वाहनों के लिए MRF ZLO परिणाम को बढ़ा दिया गया है।
-
-**Flags:** dropped_numbers=—; added_numbers=—; latin_words=MRF; ZLO; max_repeat=1; length_ratio=0.8; sensitive=—
+**Flags:** dropped_numbers=—; added_numbers=—; latin_words=—; max_repeat=7; length_ratio=0.97; sensitive=—
 
 ## mt5_base — test #241 (dropped_numbers)
 
@@ -80,19 +70,29 @@ reported as bias, hallucination or a cultural error. `added_numbers` is a halluc
 
 **Reference:** Frontier एयरलाइंस में एक कैरी - ऑन बैग के लिए $100 के लिए चार्ज शुरू करने की योजना है और यह, कॉफी या सोडा के लिए$2 का शुल्क लगाएंगे, हालांकि बुधवार को इसकी घोषणा ने बताया कि यात्री संपूर्ण डिब्बा रख सकते हैं.
 
-**Hypothesis:** फ्रेंच एयरलाइन ने सप्ताह के लिए $ 100 के लिए जमा करने के लिए तैयार करने के लिए तैयार करने के लिए तैयार करने के लिए तैयार करने की घोषणा की थी कि यात्रियों को पूरी तरह रखने की जरूरत है।
+**Hypothesis:** फ्रेंच एजेंसी ने अपनी घोषणा की कि यात्रियों को बिजली या चावल के लिए जमा करने की शुरुआत करने की शुरुआत की है, जबकि उन्होंने यह घोषणा की कि यात्रियों को पूरा करने के लिए पूरा करने के लिए पूरा करना होगा।
 
-**Flags:** dropped_numbers=2; added_numbers=—; latin_words=—; max_repeat=4; length_ratio=0.95; sensitive=—
+**Flags:** dropped_numbers=100; 2; added_numbers=—; latin_words=—; max_repeat=2; length_ratio=0.98; sensitive=—
 
-## mt5_base — test #276 (added_numbers)
+## mt5_base — test #326 (added_numbers)
 
-**Source:** So, a 1,000 mile Frontier trip purchased from an online travel agency would earn 250 miles.
+**Source:** For the third quarter ended September 30, Bombardier's net profit fell to $147 million, or 8 cents per share, from $172 million, or 9 cents per share a year earlier.
 
-**Reference:** तो, एक ऑनलाइन ट्रैवल एजेंसी से खरीदी गई एक 1000 मील Frontier ट्रिप 250 मील की दूरी अर्जित करेगा.
+**Reference:** 30 सितंबर को समाप्त तीसरी तिमाही के लिए, Bombardier के शुद्ध लाभ एक साल पहले $ $147मिलियन, या प्रति शेयर 8 सेंट, $172मिलियन, या प्रति शेयर 9 सेंट तक गिर गया.
 
-**Hypothesis:** इसलिए, एक 1,000 मीटर यात्रा यात्रा के लिए एक 1,200 मीटर यात्रा यात्रा 250 मीटर होगी।
+**Hypothesis:** तीसरी तिमाही के दौरान 30 अगस्त को, तीसरी तिमाही के दौरान, बंबेडकर के कुल लाभ $47 मिलियन या 8 मिलियन रुपये प्रति करोड़ रुपये प्रति करोड़ रुपये प्रति करोड़ रुपये प्रति करोड़ रुपये प्रति करोड़ रुपये प्रति करोड़ रुपये प्रति करोड़ रुपये प्रति करोड़ रुपये से बढ़ गया।
 
-**Flags:** dropped_numbers=—; added_numbers=1200; latin_words=—; max_repeat=2; length_ratio=0.84; sensitive=—
+**Flags:** dropped_numbers=147; 172; 9; added_numbers=47; latin_words=—; max_repeat=8; length_ratio=1.55; sensitive=—
+
+## mt5_base — test #938 (untranslated_latin)
+
+**Source:** She wants to use next year's EU elections to create an anti-EU, anti-common currency bloc across the European Parliament.
+
+**Reference:** यह दल अगले वर्ष होने वाले ई.यू. चुनावों का उपयोग यूरोपीय संसद में ई.यू. विरोधी, सर्वनिष्ठ मुद्रा विरोधी गुट बनाना चाहता है।
+
+**Hypothesis:** उन्होंने अगले वर्ष यूरोपीय संसद में एक anti-E, anti-jamaica मुद्रा को बनाने के लिए प्रयोग किया है।
+
+**Flags:** dropped_numbers=—; added_numbers=—; latin_words=anti; anti; jamaica; max_repeat=1; length_ratio=0.77; sensitive=politics
 
 ## llama_prompt3shot — test #26 (repetition)
 
