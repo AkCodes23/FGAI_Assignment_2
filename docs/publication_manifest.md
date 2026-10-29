@@ -2,7 +2,7 @@
 
 Target supplied by the student: `https://github.com/AkCodes23/FGAI_Assignment_2.git`.
 
-This sanitized allowlist describes the local handoff package for the supplied target. The remote `main` branch is at [commit 1e07bb6b80a66f0c172c0c72d322ccbfe62d6faf](https://github.com/AkCodes23/FGAI_Assignment_2/commit/1e07bb6b80a66f0c172c0c72d322ccbfe62d6faf), verified against the remote branch head. The current local refresh adds the three-epoch mT5 result, EDA artifacts, and documentation/checker updates; it has not been pushed, so the linked remote commit is an earlier snapshot and does not contain this refresh. Student identifiers, workstation-specific paths, and identity-bearing cover materials remain excluded from this sanitized package.
+This sanitized allowlist describes the published handoff package. The 96-file refresh is on GitHub `main` at content commit [da390882d3b8c7d1689ccfb95fc58c67d5e7611a](https://github.com/AkCodes23/FGAI_Assignment_2/commit/da390882d3b8c7d1689ccfb95fc58c67d5e7611a), verified on 2026-10-29. Student identifiers, workstation-specific paths, and identity-bearing cover materials remain excluded from this sanitized package.
 
 ## Saved overlap-audit record
 
