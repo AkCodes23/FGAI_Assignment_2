@@ -13,7 +13,8 @@ protobuf>=4.25
 pyyaml>=6.0
 pandas==3.1.0
 numpy==2.5.2
-matplotlib>=3.8
+# Exact version used to generate the committed report figures.
+matplotlib==3.11.2
 tqdm>=4.66
 huggingface-hub>=0.34
 psutil>=6.0

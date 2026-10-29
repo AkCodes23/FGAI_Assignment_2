@@ -43,6 +43,13 @@ From the project root, prepare the virtual environment and dependencies:
     .venv\Scripts\python.exe -m pip install --upgrade pip
     .venv\Scripts\python.exe -m pip install -r requirements.txt
 
+Matplotlib is pinned to 3.11.2 because its version affects the committed report images. To regenerate those figures and run the saved-artifact gate in a clean clone without installing the model-serving stack, use the focused lock file:
+
+    python -m venv .venv
+    .venv\Scripts\python.exe -m pip install -r requirements-report-figures.txt
+    .venv\Scripts\python.exe scripts\16_report_figures.py
+    .venv\Scripts\python.exe scripts\08_check_artifacts.py
+
 The saved-data evaluation command is:
 
     powershell -ExecutionPolicy Bypass -File scripts\run_all.ps1

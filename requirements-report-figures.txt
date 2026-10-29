@@ -1,0 +1,5 @@
+# Minimal, pinned environment for report figure generation and the saved-artifact gate.
+matplotlib==3.11.2
+numpy==2.5.2
+sacrebleu==2.6.0
+PyYAML==6.0.3

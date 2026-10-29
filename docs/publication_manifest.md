@@ -1,6 +1,6 @@
 ﻿# GitHub publication manifest
 
-The currently published GitHub baseline is 96 files on main at [dc20c77c1a9d2149365c71b9149611ab24ce4e14](https://github.com/AkCodes23/FGAI_Assignment_2/commit/dc20c77c1a9d2149365c71b9149611ab24ce4e14), verified on 2026-10-29. This local proposal updates the report, README, results notebook, figure index, tokenizer-fertility reproduction, and generated figures; its allowlist contains 110 files. The proposal has not been pushed and is awaiting review and the student's approval.
+The currently published GitHub baseline is 96 files on main at [dc20c77c1a9d2149365c71b9149611ab24ce4e14](https://github.com/AkCodes23/FGAI_Assignment_2/commit/dc20c77c1a9d2149365c71b9149611ab24ce4e14), verified on 2026-10-29. This local proposal updates the report, README, results notebook, figure index, tokenizer-fertility reproduction, generated figures, and focused figure-reproduction dependency lock; its allowlist contains 111 files. The proposal has not been pushed and is awaiting review and the student's approval.
 
 ## Saved overlap-audit record
 
@@ -14,7 +14,7 @@ The counts below are copied from data/processed/dataset_manifest.json. The artif
 
 ## Include
 
-- Project guidance and setup: README.md, PLAN.md, STATUS.md, .gitignore, .dockerignore, Dockerfile, requirements.txt, configs/default.yaml.
+- Project guidance and setup: README.md, PLAN.md, STATUS.md, .gitignore, .dockerignore, Dockerfile, requirements.txt, requirements-report-figures.txt, configs/default.yaml.
 - Implementation and reproducibility: src/fgai_mt/, scripts/, tests/, notebooks/01_results_walkthrough.ipynb.
 - Dataset provenance only: data/processed/dataset_manifest.json.
 - Public documentation: docs/report.md, docs/requirements_traceability.md, and docs/publication_manifest.md. Cover files, identity-bearing details, and docs/submission_details.md are excluded.

@@ -97,6 +97,8 @@ The end-to-end orchestrator is scripts/run_all.ps1. It expects processed splits,
 
 The gate checks existing outputs. The figure generator reads saved translations and result files; it does not train models or run inference.
 
+For a fresh-clone, lightweight setup that reproduces the committed images, install the exact plotting and gate dependencies from [requirements-report-figures.txt](../requirements-report-figures.txt). It pins Matplotlib 3.11.2, matching the full [requirements.txt](../requirements.txt) environment and the version used to generate these figures.
+
 ## 5. Evaluation design
 
 Headline scores are computed from the saved translations for the same 200 examples. SacreBLEU uses the 13a tokenizer; chrF uses character order 6 and word order 0; TER is a lower-is-better secondary metric. BLEU confidence intervals use 400 sentence-level bootstrap resamples with the recorded fixed seed. Inference time is generation-only wall time for the 200 rows and excludes model loading. Parameter counts use full model tensor shapes before 4-bit loading; therefore quantized memory use is not represented by the parameter column.
