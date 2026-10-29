@@ -1,116 +1,96 @@
-# BhashaBridge-Hindi: English-to-Hindi Translation System
+# English–Hindi machine translation: four-system comparison
 
-This project compares four machine-translation systems on English→Hindi. The headline comparison uses the same precommitted 200-row sample from the IIT Bombay test split for every system. The sample seed, original row IDs, and test-file hash are recorded in [`results/evaluation_sample.json`](results/evaluation_sample.json). The student-supplied repository target is [AkCodes23/FGAI_Assignment_2](https://github.com/AkCodes23/FGAI_Assignment_2.git).
+This assignment compares four systems on one shared evaluation sample. The full analysis, exact example translations, and figure interpretations are in the [technical report](docs/report.md).
 
-## Objective
+## 1. Problem statement and objective
 
-Implement a Transformer encoder–decoder from scratch, fine-tune mT5, and use prompting with one LLaMA-family model and one Gemma model. Compare BLEU, chrF, training or adaptation time, inference time, parameter count, and output behaviour. Discuss architecture and model-size confounders, sampling temperature, and responsible use.
+Translate English sentences into Hindi while preserving meaning, names, numbers, and sentence structure. The comparison covers a small Transformer trained from scratch, fine-tuned mT5, and two decoder-only instruction models evaluated with three examples in the prompt. [Read the problem definition and scope](docs/report.md#1-problem-and-objective).
 
-## Dataset
+## 2. Dataset description and source
 
-The IIT Bombay English–Hindi Parallel Corpus (CFILT) is distributed under **CC BY-NC 4.0**. The official source is [CFILT](https://www.cfilt.iitb.ac.in/iitb_parallel/); the downloaded mirror is [`cfilt/iitb-english-hindi`](https://huggingface.co/datasets/cfilt/iitb-english-hindi). Provider train/validation/test membership is preserved. Text cleanup uses Unicode NFC, whitespace and control-character cleanup, malformed-pair and Hindi-script checks, length-ratio and length limits. Training duplicates are removed. The leakage audit uses NFKC, case folding, punctuation removal, and whitespace folding for exact normalized source matches; it found zero overlap. See [`data/processed/dataset_manifest.json`](data/processed/dataset_manifest.json) for counts and hashes.
+The data is the IIT Bombay English–Hindi Parallel Corpus from [CFILT, IIT Bombay](https://www.cfilt.iitb.ac.in/iitb_parallel/), distributed under CC BY-NC 4.0. The [Hugging Face dataset mirror](https://huggingface.co/datasets/cfilt/iitb-english-hindi) provides the same corpus. The processed splits contain 60,000 training pairs, 520 validation pairs, and a 2,507-example test set. The **200-row sample drawn once from the official 2,507-row test split** uses seed 42 and the same row IDs, sources, and references for all four systems.
 
-The existing shared training file contains 60,000 pairs, selected with seed 42. The basic Transformer was retrained on a deterministic 12,000-row subset of that file; mT5 used the 60,000-row file for 3 epochs; its best validation loss was 2.2517. The decoder-only models use three training examples in their prompts and receive no gradient updates. The headline test set is a uniform 200-row sample drawn once from the official 2,507-row test split. It is reused unchanged for all four systems. No system or prompt was selected using these test scores.
+![Dataset preparation and shared evaluation flow](results/figures/pipeline_flow.png)
 
-## Exploratory data analysis
+The diagram shows one cleaning and split path feeding four systems and one paired 200-row sample. Each system is therefore scored against the same 200 references. [Dataset counts, cleaning, and EDA](docs/report.md#2-dataset-and-evaluation-sample).
 
-[`scripts/15_eda.py`](scripts/15_eda.py) reads the locally saved processed splits and verifies their SHA-256 hashes against the dataset manifest before generating [`results/eda_summary.json`](results/eda_summary.json) and the figure below. It also confirms that its length, uniqueness, and target-script statistics match `results/data_stats.json`. The training analysis covers the fixed 60,000-row shared subset; validation and test cover the full 520- and 2,507-row provider splits. The headline metrics still use only the separate, fixed 200-row test sample.
+![Dataset exploratory data analysis](results/figures/dataset_eda.png)
 
-The processed files contain no blank pairs. There are zero exact normalized pair repetitions in train and validation, and one additional repeated pair row in test. The manifest records 51,232 training rows dropped during cleaning and 258,395 duplicate training pairs removed before taking the 60,000-row subset. Median source/target whitespace-token counts are 11/11 (train), 16/16 (validation), and 18/20 (test); median character counts are 59/57, 97.5/82, and 107/104. Devanagari makes up about 99.15%, 100.00%, and 99.53% of target alphabetic characters across those splits. The distributions are descriptive and do not establish translation quality, corpus representativeness, or fairness.
+The test split has median source and target lengths of 18 and 20 whitespace words. The report explains the full split-level distributions and script composition.
 
-![Length and target-script distributions across the processed IITB splits](results/figures/dataset_eda.png)
+## 3. Models implemented
 
-## Systems
+| System | Architecture | Parameters | Task adaptation |
+|---|---|---:|---|
+| Basic Transformer | Encoder–decoder | 15.2M | Trained from scratch on 12,000 pairs |
+| mT5-small | Encoder–decoder | 300.2M | Fine-tuned on 60,000 pairs |
+| TinyLlama 1.1B | Decoder-only | 1,100.0M | Three-shot prompt; no local weight updates |
+| Gemma 3 1B | Decoder-only | 999.9M | Three-shot prompt; no local weight updates |
 
-| System | Model | Method | Parameters |
-|---|---|---|---:|
-| Basic Transformer | 6 encoder + 6 decoder layers, 256 hidden size, 8 heads | From-scratch training; validation-loss checkpoint | 15.16 M |
-| mT5 | `google/mt5-small` | Full fine-tuning; 3 epochs completed | 300.18 M |
-| LLaMA family | `TinyLlama/TinyLlama-1.1B-Chat-v1.0` | 3-shot prompting, greedy headline decoding | 1.10 B |
-| Gemma | `unsloth/gemma-3-1b-it` | 3-shot prompting, greedy headline decoding | 1.00 B |
+TinyLlama is a LLaMA-family checkpoint, not an official Meta LLaMA checkpoint. Gemma was loaded from a mirror; Gemma terms apply. [Architecture, pretraining, tokenization, and prompt details](docs/report.md#3-systems-and-adaptation).
 
-TinyLlama is a genuine `LlamaForCausalLM` checkpoint under Apache-2.0; it is not an official Meta LLaMA release. Gemma uses an ungated mirror of the Gemma 3 1B instruction-tuned weights; Gemma’s terms still apply. The exact model revisions and provenance notes are in [`results/model_provenance.json`](results/model_provenance.json). Both decoder-only runs are prompt-only; QLoRA was not run in this reduced scope.
+![Encoder–decoder path and decoder-only three-shot prompt structure](results/figures/architecture_comparison.png)
 
-## Results
+The diagram contrasts source encoding followed by target decoding with a causal prompt. The plotted parameter counts range from 15.2M for the scratch model to about 1.1B for TinyLlama; the decoder-only runs use three fixed examples.
 
-Metrics are corpus SacreBLEU (13a), chrF, and TER. BLEU confidence intervals use 400 sentence-level bootstrap resamples. Inference time measures generation on the 200 examples and excludes model loading. Prompt-only systems have no training time.
+## 4. Execution steps and dependencies
 
-**Headline test-set results (200 fixed random rows; seed 42).** BLEU is SacreBLEU 13a; the sample is drawn from the official IITB test split.
-chrF uses character order 6 and word order 0; TER is lower-is-better. The 95 % interval is a
-sentence-level bootstrap (400 resamples, fixed seed). `Train/adapt` is wall-clock seconds; `—` means the
-row did not train (prompt-only). `Batch` and `Decoding` are the inference settings actually used, because
-throughput is only comparable when those are stated.
+The recorded environment used Windows 11, Python 3.13, PyTorch 2.9.1, CUDA 12.8, and the packages listed in [requirements.txt](requirements.txt), including Transformers, Hugging Face Datasets, SentencePiece, SacreBLEU, pandas, NumPy, and Matplotlib. Install the CUDA-compatible PyTorch build before the remaining pinned packages.
 
-| System | Arch | Params (M) | Train/adapt (s) | Inference (s) | Sent/s | Batch | Decoding | BLEU | 95% CI | chrF | TER |
-|---|---|---:|---:|---:|---:|---:|---|---:|---|---:|---:|
-| Basic Transformer (from scratch) | enc-dec | 15.2 | 463.9 | 15.07 | 13.27 | 32 | beam=4, length_penalty=0.6 | 0.26 | [0.19, 0.33] | 9.62 | 145.4 |
-| mT5-small (fine-tuned) | enc-dec | 300.2 | 12379.4 | 128.95 | 1.55 | 4 | beam=4 | 7.58 | [6.38, 8.75] | 29.34 | 82.1 |
-| TinyLlama 1.1B (3-shot prompt) | decoder-only | 1100.0 | — | 389.144 | 0.51 | 12 | greedy | 0.36 | [0.26, 0.45] | 13.66 | 118.1 |
-| Gemma 3 1B (3-shot prompt) | decoder-only | 999.9 | — | 250.85 | 0.80 | 12 | greedy | 10.95 | [9.35, 12.38] | 35.57 | 85.0 |
+From the project root, prepare the virtual environment and dependencies:
 
-**Best BLEU:** `gemma_prompt3shot` at 10.95 BLEU / 35.57 chrF / 85.0 TER.
+    python -m venv .venv
+    .venv\Scripts\python.exe -m pip install --upgrade pip
+    .venv\Scripts\python.exe -m pip install -r requirements.txt
 
+The saved-data evaluation command is:
 
-On this fixed sample, Gemma has the highest point scores (10.95 BLEU, 35.57 chrF, 85.0 TER), followed by mT5 (7.58, 29.34, 82.1). TinyLlama and the from-scratch Transformer score 0.36 and 0.26 BLEU. The basic model is fastest here at 13.27 sentences/s; Gemma reaches 0.80, mT5 1.55, and TinyLlama 0.51 with different batch sizes and decoding settings. These are system-level results, not a controlled architecture experiment: pretraining, data volume, tokenizer, model size, and adaptation all differ. The decoder parameter counts are full unquantized counts; 4-bit loading changes storage, not model size.
+    powershell -ExecutionPolicy Bypass -File scripts\run_all.ps1
 
-Plots: [BLEU by system](results/figures/bleu_by_system.png), [BLEU vs full parameter count](results/figures/bleu_vs_params.png), and [temperature analysis](results/figures/temperature_analysis.png).
+It requires the processed splits, trained checkpoints, and model cache. It selects the sample, runs inference and scoring, evaluates 20 temperature rows, produces screening and EDA artifacts, and runs the artifact gate. It sets offline mode and uses existing checkpoints. For the data preparation and training commands, see [execution details](docs/report.md#4-execution-and-dependencies).
 
-## Sampling temperature
+## 5. Results
 
-The decoder prompts are also evaluated on 20 fixed rows from the shared sample at temperatures 0.2, 0.7, and 1.0. [`results/temperature/temperature_results.json`](results/temperature/temperature_results.json) records the row IDs and metrics; JSONL files contain the generated examples. Greedy decoding remains the setting used in the headline table.
+Scores below are corpus BLEU (SacreBLEU 13a), corpus chrF, and TER; lower TER is better. All are measured on the same 200 rows.
 
-| System | Temperature | BLEU | chrF | Distinct-2 |
+| System | BLEU (95% CI) | chrF | TER | Inference seconds |
 |---|---:|---:|---:|---:|
-| TinyLlama (3-shot) | 0.2 | 0.408 | 13.861 | 0.648 |
-| TinyLlama (3-shot) | 0.7 | 0.568 | 15.531 | 0.900 |
-| TinyLlama (3-shot) | 1.0 | 0.559 | 15.436 | 0.980 |
-| Gemma 3 1B (3-shot) | 0.2 | 12.462 | 38.772 | 0.949 |
-| Gemma 3 1B (3-shot) | 0.7 | 10.259 | 35.902 | 0.938 |
-| Gemma 3 1B (3-shot) | 1.0 | 8.826 | 34.734 | 0.933 |
+| Basic Transformer | 0.262 (0.190–0.326) | 9.624 | 145.377 | 15.07 |
+| mT5-small | 7.581 (6.376–8.753) | 29.335 | 82.141 | 128.95 |
+| TinyLlama 1.1B | 0.358 (0.264–0.448) | 13.663 | 118.142 | 389.144 |
+| Gemma 3 1B | 10.952 (9.345–12.383) | 35.566 | 84.998 | 250.85 |
 
-On these 20 rows, higher temperature raised TinyLlama's distinct-2 while its BLEU remained below 0.6; Gemma's BLEU and chrF were highest at 0.2 and declined at 0.7 and 1.0. This small descriptive study does not establish a general decoding optimum and was not used to select the headline prompt. See [temperature plot](results/figures/temperature_analysis.png).
+![BLEU and mean sentence-level chrF with 95% bootstrap intervals](results/figures/score_intervals.png)
 
-## Responsible use and qualitative examples
+Gemma has the highest corpus BLEU at 10.952, while mT5 is second at 7.581. In the separate sentence-level chrF summary, Gemma’s mean is 34.180 (95% interval 32.169–36.235) and mT5’s is 29.486 (27.759–31.419). [All result details and uncertainty](docs/report.md#6-results).
 
-The project screens real outputs for empty or non-Devanagari text, number changes, untranslated English, repetition, and unusually short or long outputs. These are review flags, not proof of a semantic error. Examples and a human-review worksheet are in [`results/error_analysis/`](results/error_analysis/); fixed qualitative examples are in [`results/qualitative_samples.md`](results/qualitative_samples.md). The report discusses bias, hallucination, cultural or sensitive-content risks, and mitigations.
+## 6. Model comparison and evaluation
 
-On 200 outputs, the automated screen found no empty translations. Repetition-loop flags occurred in 47.0% of basic Transformer outputs, 6.5% of mT5, 22.5% of TinyLlama, and 0.5% of Gemma outputs. Gemma also had no Devanagari in 5.5% and untranslated Latin text in 14.0%. These are heuristic review flags, not human judgments. In test row 1126, mT5 repeats the phone/tablet shutdown instruction and omits the take-off/landing context. Row 356 shows variation in a person’s name and gendered wording; row 899 contains a statement about unwanted sexual attention, where meaning changes could harm the speaker. Exact sources, references, and outputs are in [`results/qualitative_samples.md`](results/qualitative_samples.md); flagged examples and a human-review worksheet are in [`results/error_analysis/`](results/error_analysis/).
+The four systems vary in model size, pretraining, tokenizer, and adaptation. On the same 2,507 Hindi test references, tokenizer fertility is 1.586 pieces per whitespace word for the Basic Transformer, 2.058 for mT5, 5.55 for TinyLlama, and 1.364 for Gemma. The two decoder prompt models did not receive task-specific weight updates. The report includes a direct comparison of the encoder–decoder and decoder-only systems, with their scores, adaptation costs, inference time, throughput, and tokenizer measurements.
 
-Bias and cultural misrepresentation are relevant risks, but no systematic human bias audit was performed. For sensitive or consequential use, require qualified bilingual review; check names, numbers, negation, and context; flag suspicious repetition or language/script mismatches; and route uncertain cases to a human. Do not use these models as the sole source for medical, legal, or public decisions. No bilingual human adequacy study was performed.
+![Corpus chrF by inference time and parameter count](results/figures/quality_cost.png)
 
-## Reproduce the reduced evaluation
+Gemma has the highest corpus chrF at 35.566 and takes 250.85 seconds for 200 sentences; mT5 scores 29.335 chrF in 128.95 seconds. The scratch Transformer scores 9.624 chrF in 15.07 seconds, while TinyLlama scores 13.663 in 389.144 seconds. These are observed run times, not controlled hardware-efficiency estimates. Automated screening found repetition in 47.0% of scratch-model outputs and untranslated Latin text in 14.0% of Gemma outputs; these flags require output review.
 
-Verified environment: Windows 11, Python 3.13, PyTorch 2.9.1 with CUDA 12.8, RTX 5050 Laptop GPU (8 GB). From the repository root, install the pinned dependencies from `requirements.txt`, set `PYTHONPATH=src` and `HF_HOME=.hf`, and make the trained checkpoints available locally. The model caches are not included in the source tree.
+The report compares pretraining, vocabulary, tokenizer fertility, and task adaptation numerically. It also shows exact source, reference, and four output records for rows 1126, 356, and 899, and discusses observed name, number, gender, repetition, and sensitive-content errors. [Model comparison, evaluation, and responsible-use analysis](docs/report.md#7-model-comparison-and-evaluation) and [sampled error review](docs/report.md#9-responsible-use-and-sampled-errors).
 
-```powershell
-$env:PYTHONPATH = "$PWD\src"
-$env:HF_HOME = "$PWD\.hf"
-$env:HF_HUB_OFFLINE = "1"
-$env:TRANSFORMERS_OFFLINE = "1"
-.\.venv\Scripts\python.exe scripts\00b_select_eval_sample.py
-.\.venv\Scripts\python.exe scripts\02b_infer_mt5.py
-.\.venv\Scripts\python.exe scripts\01b_infer_transformer.py
-.\.venv\Scripts\python.exe scripts\03_llama.py --mode prompt --shots 3
-.\.venv\Scripts\python.exe scripts\04_gemma.py --mode prompt --shots 3
-.\.venv\Scripts\python.exe scripts\05_evaluate.py
-.\.venv\Scripts\python.exe scripts\06_temperature.py --limit 20
-.\.venv\Scripts\python.exe scripts\07_ethics_analysis.py
-.\.venv\Scripts\python.exe scripts\14_sync_parameter_counts.py
-.\.venv\Scripts\python.exe scripts\10_collect_facts.py
-.\.venv\Scripts\python.exe scripts\11_fill_results_table.py
-.\.venv\Scripts\python.exe scripts\12_qualitative_samples.py
-.\.venv\Scripts\python.exe scripts\15_eda.py
-.\.venv\Scripts\python.exe scripts\08_check_artifacts.py
-```
+## 7. Sampling-temperature analysis
 
-`scripts/08_check_artifacts.py` validates the saved zero-overlap values in `data/processed/dataset_manifest.json` and `docs/publication_manifest.md`. The sanitized package excludes raw split TSVs, so this gate checks the saved audit records and does not recompute source overlap.
+The decoder models were also evaluated on the same 20 rows at temperatures 0.2, 0.7, and 1.0. This small study is descriptive; the 20 rows are the first 20 rows of the fixed 200-row sample.
 
-The artifact gate checks the saved EDA summary's source hashes, split counts, cleaning metadata, missing/duplicate-pair record, and length/uniqueness/script distributions against the shipped manifest and `results/data_stats.json`. It also checks the PNG, the notebook's embedded figure reference, and EDA references in the README/report/traceability. Because processed TSVs are excluded from the sanitized package, these are saved-record checks; the gate does not recompute overlap or EDA. Run `scripts/15_eda.py` locally when the processed TSVs are available to regenerate the summary and figure.
+| System | T | BLEU | chrF | Distinct-2 |
+|---|---:|---:|---:|---:|
+| TinyLlama | 0.2 | 0.408 | 13.861 | 0.6481 |
+| TinyLlama | 0.7 | 0.568 | 15.531 | 0.8998 |
+| TinyLlama | 1.0 | 0.559 | 15.436 | 0.9798 |
+| Gemma 3 1B | 0.2 | 12.462 | 38.772 | 0.9490 |
+| Gemma 3 1B | 0.7 | 10.259 | 35.902 | 0.9375 |
+| Gemma 3 1B | 1.0 | 8.826 | 34.734 | 0.9330 |
 
-Or run `scripts/run_all.ps1`. It uses existing checkpoints and cached models; it does not redownload the dataset, train models, or run a full-test sweep. The exact baseline training command and subset manifest are recorded in `logs/config_used_basic_reduced.yaml` and `results/basic_train_subset.json`; the mT5 training log is `logs/train_mt5.jsonl`.
+![Temperature scores and diversity](results/figures/temperature_analysis.png)
 
-## Conclusion
+Gemma’s BLEU falls from 12.462 at 0.2 to 8.826 at 1.0. TinyLlama’s Distinct-2 rises from 0.6481 to 0.9798, while its BLEU remains below 0.6. [Temperature analysis](docs/report.md#8-sampling-temperature-analysis).
 
-Gemma led this 200-row sample, but its 10.95 BLEU and observed untranslated-text flags still require human checking. mT5 scored 7.58 BLEU after three completed epochs (12,379.4 seconds of training); the scratch Transformer used 12,000 training examples and showed frequent repetition; TinyLlama is a LLaMA-family substitute, not an official Meta LLaMA model. Results are limited by the small sample, one training seed, unequal model/data scale, and heuristic-only output screening. Treat this as an assignment comparison, not a production translation benchmark. The student-specific named cover DOCX and PDF are prepared locally for LMS submission and are excluded from the public GitHub package because they contain student identifiers.
+## 8. Conclusion
 
-The named DOCX and PDF are prepared locally and excluded from the public repository because they contain student identifiers. The cover was regenerated in Word on 2026-10-29 with SaveAs2 (FileFormat=17), and a local-only audit log records the export. Independent review verified the one-page A4 layout, three working links, populated required fields, and results table against results/summary_table.csv; PDF metadata identifies Microsoft Word for Microsoft 365. The sanitized 96-file refresh is published on AkCodes23/FGAI_Assignment_2 (https://github.com/AkCodes23/FGAI_Assignment_2/commit/da390882d3b8c7d1689ccfb95fc58c67d5e7611a) on main. LMS upload remains the student's action.
+Gemma 3 1B is the best system by corpus BLEU and chrF on this evaluation sample. Its output still needs human review: the saved sample contains a 14.0% untranslated-Latin flag rate. mT5 is second on BLEU and faster at inference; model selection depends on the required quality and latency. The [technical report](docs/report.md#11-conclusion) gives the limitations and supporting comparisons.

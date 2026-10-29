@@ -20,5 +20,33 @@
     "hi_tokens_per_word": 1.364,
     "max_new_tokens_cap": 192,
     "references_over_cap": 0
+  },
+  "basic_transformer_sentencepiece": {
+    "n_sentences": 2507,
+    "hi_tokens_mean": 36.08,
+    "hi_tokens_median": 32,
+    "hi_tokens_p95": 72,
+    "hi_words_mean": 22.75,
+    "hi_tokens_per_word": 1.586
+  },
+  "google/mt5-small": {
+    "n_sentences": 2507,
+    "hi_tokens_mean": 46.83,
+    "hi_tokens_median": 42,
+    "hi_tokens_p95": 93,
+    "hi_words_mean": 22.75,
+    "hi_tokens_per_word": 2.058
+  },
+  "_measurement": {
+    "method": "Hindi reference subword count; no special tokens; mean tokens divided by mean whitespace words",
+    "test_tsv_sha256": "c4b0e3f255f1ffc1f56eb6afdb64220f9e521c6ebf68e63c48f2919a025e8e75",
+    "test_tsv": "data/processed/test.tsv (local-only; excluded from publication)",
+    "test_rows": 2507,
+    "basic_model_sha256": "e442c32ed94e7e5d4714edf2dd93e77f59a460aeee82ea7e96806b7faa54c501",
+    "mt5_tokenizer": {
+      "model_id": "google/mt5-small",
+      "revision": "73fb5dbe4756edadc8fbe8c769b0a109493acf7a"
+    },
+    "inference_or_training": false
   }
 }

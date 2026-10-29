@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import statistics
 import sys
+import json
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
@@ -25,7 +26,14 @@ def main() -> int:
     rows = load_split("test")
     hi = [r["hi"] for r in rows]
     en = [r["en"] for r in rows]
-    out = {}
+    output_path = project_path("results", "tokenizer_fertility.json")
+    existing = json.loads(output_path.read_text(encoding="utf-8")) if output_path.exists() else {}
+    # Keep the encoder–decoder measurements added by 16a when refreshing the
+    # decoder-only audit; either script can be run without dropping the other.
+    out = {
+        key: value for key, value in existing.items()
+        if key in {"basic_transformer_sentencepiece", "google/mt5-small", "_measurement"}
+    }
     for key in ("llama", "gemma"):
         spec = cfg["decoder"][key]
         tok = AutoTokenizer.from_pretrained(spec["model_id"], revision=spec["revision"])
@@ -43,7 +51,7 @@ def main() -> int:
             "references_over_cap": sum(1 for n in hi_tokens if n > cfg["decoder"]["max_new_tokens"]),
         }
         print(spec["model_id"], out[spec["model_id"]])
-    write_json(project_path("results", "tokenizer_fertility.json"), out)
+    write_json(output_path, out)
     return 0
 
 
